@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>San valentin</title>
+    <link rel="icon" href="media/kitty-removebg-preview.png" type="image/png">
+    <link rel="stylesheet" href="css/inicio.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link href="https://fonts.cdnfonts.com/css/new-romantics" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="js/navbar.js"></script>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">San Valentin</a>
+
+        <div class="hamburger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+
+        <nav class="navbar">
+            <ul>
+                <li>
+                    <a href="index.html">Inicio</a>
+                </li>
+
+                <li>
+                    <a href="form.html">Cita</a>
+                </li>
+
+                <li>
+                    <a href="gallery.html">Galeria</a>
+                </li>
+
+             
+            </ul>
+        </nav>
+
+    </header>
+
+    <div class="main">
+        
+        <img class="cupido" src="media/cupid.gif" alt="cupido">
+            
+        <div class="datos">
+            
+            <p>Hola Santi</p>
+            <h2>Por favor coloca tus datos</h2>
+    
+            <div class="dato">
+                <label for="correo">email:</label>
+                <input type="email" placeholder="Escribe tu email..." id="email" required><br>
+            </div>
+    
+            <div class="dato">
+                <label for="fecha">Fecha para celebrar:</label>
+                <input type="date" id="date" required>
+            </div>
+        </div>
+
+        <section class="options">
+            <p>¿Qué te gustaría hacer?</p>
+            <div class="all-options">
+                <div class="option">
+                    <img src="media/pintar.jpg" alt="">
+                    <div class="info">
+                        <input type="radio" id="opcion1" name="opcion" value="pintar">
+                        <label for="opcion1">pintar</label><br>
+                    </div>
+                </div>
+
+                <div class="option">
+                    <img src="media/gelatto.jpg" alt="">
+                    <div class="info">
+                        <input type="radio" id="opcion2" name="opcion" value="gelato">
+                        <label for="opcion2">Gelato</label><br>
+                    </div>
+                </div>
+
+                <div class="option">
+                    <img src="media/movie.jpg" alt="">
+                    <div class="info">
+                        <input type="radio" id="opcion3" name="opcion" value="pelicula">
+                        <label for="opcion3">Maratón de peliculas</label><br>
+                    </div>
+                </div>
+
+                <div class="option">
+                    <img src="media/pizza.jpg" alt="">
+                    <div class="info">
+                        <input type="radio" id="opcion4" name="opcion" value="pizza">
+                        <label for="opcion4">Pizza casera</label><br>
+                    </div>
+                </div>
+
+                <div class="option">
+                    <img src="media/picnic.jpg" alt="">
+                    <div class="info">
+                        <input type="radio" id="opcion5" name="opcion" value="picnic">
+                        <label for="opcion5">Picnic</label><br>
+                    </div>
+                </div>
+
+                <div class="option">
+                    <img src="media/arcade.jpg" alt="">
+                    <div class="info">
+                        <input class="radio" type="radio" id="opcion6" name="opcion" value="arcade">
+                        <label for="opcion6">Arcade</label><br>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <div class="btn-enviar">
+            <input class="submit" type="submit" value="enviar" id="submit">
+        </div>
+        
+        
+    </div>
+
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    
+        const firebaseConfig = {
+            apiKey: "AIzaSyATsW2WzeUcv9XSRtemucBP-hXHwnP_EwA",
+            authDomain: "valentine-s-day-9d544.firebaseapp.com",
+            projectId: "valentine-s-day-9d544",
+            storageBucket: "valentine-s-day-9d544.appspot.com",
+            messagingSenderId: "265305954862",
+            appId: "1:265305954862:web:b9ea8e6b530388ac5c9dbf",
+            measurementId: "G-5E3KD27WT0"
+        };
+
+        const firebaseApp = initializeApp(firebaseConfig);
+        
+        const db = getDatabase(firebaseApp);
+
+        document.getElementById("submit").addEventListener('click', function(e){
+
+            let opcionSeleccionada = null;
+
+            const opciones = document.getElementsByName("opcion");
+            for (let i = 0; i < opciones.length; i++) {
+                if (opciones[i].checked) {
+                    opcionSeleccionada = opciones[i].value;
+                    break;
+                }
+            }
+
+            if (!opcionSeleccionada) {
+                alert("Por favor selecciona una opción.");
+                return;
+            }
+
+            set(ref(db, 'user/' + document.getElementById("email").value),
+                    {
+                        email: document.getElementById("email").value,
+                        date: document.getElementById("date").value,
+                        opcion: opcionSeleccionada
+                    })
+            
+            alert("datos guardados!")
+        })
+
+    </script>
+
+    <script>
+
+
+
+    </script>
+
+</body>
+</html>
